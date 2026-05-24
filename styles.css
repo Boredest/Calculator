@@ -18,6 +18,13 @@
 
 .calculator{
     padding: 2rem;
+    background-color: grey;
+    border-radius: 10px;
+}
+
+.screen{
+  background-color: white;
+  padding: 0 0.5rem;
 }
 
 
