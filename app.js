@@ -1,3 +1,13 @@
 const container = document.querySelector(".container");
 
+const buttonsContainer= document.querySelector(".buttons-container");
 
+const buttonArray = ["0","1","2","3","4","5","6","7","8","9","+","-","*","/","=","."];
+
+console.log(buttonsContainer);
+
+buttonArray.forEach(function(button) {
+    const buttonElement = document.createElement("button");
+    buttonElement.innerText = button;
+    buttonsContainer.appendChild(buttonElement);
+});

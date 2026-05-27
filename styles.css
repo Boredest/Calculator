@@ -9,25 +9,38 @@
   font-size: 5rem;
 }
 
-.main{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 75vh;
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75vh;
 }
 
-.calculator{
-    padding: 2rem;
-    background-color: grey;
-    border-radius: 10px;
+.calculator {
+  padding: 2rem;
+  background-color: grey;
+  border-radius: 10px;
+  height: 700px;
 }
 
-.screen{
+.screen {
   background-color: white;
   padding: 0 0.5rem;
 }
 
+.buttons-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 5px;
+}
 
+.buttons-container button {
+  flex: 1 0 20%;
+  width: 30px;
+  height: 60px;
+  border-radius: 5px;
+}
 
 .footer {
   margin-top: auto;
