@@ -18,14 +18,32 @@
 
 .calculator {
   padding: 2rem;
+  border: 2px solid #333;
   background-color: grey;
   border-radius: 10px;
-  height: 700px;
+  height: 500px;
 }
 
 .screen {
+  display: flex;
+  justify-content: flex-end;
   background-color: white;
-  padding: 0 0.5rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.clear-delete {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
+}
+.clear-delete button {
+  padding: 1.25rem;
+}
+button {
+  font-size: 20px;
+  border-radius: 5px;
 }
 
 .buttons-container {
