@@ -55,11 +55,18 @@ body {
   flex: 1;
   padding: 1rem 0;
 }
-button {
+
+.btn {
   border: 2px solid #333;
   font-size: 20px;
   border-radius: 5px;
   cursor: pointer;
+  user-select: none;  
+}
+.btn:hover{
+  background-color: #00B295;
+  transition-duration: 0.2s;
+  color: white;
 }
 
 .buttons-container {
@@ -67,6 +74,10 @@ button {
   flex-direction: row;
   flex-wrap: wrap;
   gap: 5px;
+}
+
+.btn:active{
+  transform: translateY(1px);
 }
 
 .buttons-container button {

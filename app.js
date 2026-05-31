@@ -9,5 +9,6 @@ console.log(buttonsContainer);
 buttonArray.forEach(function(button) {
     const buttonElement = document.createElement("button");
     buttonElement.innerText = button;
+    buttonElement.classList.add("btn");
     buttonsContainer.appendChild(buttonElement);
 });
