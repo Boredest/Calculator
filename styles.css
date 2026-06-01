@@ -101,3 +101,7 @@ body {
   max-height: 28px;
   transition: transform 0.3s ease-in-out;
 }
+
+.github-logo:hover {
+  transform: rotate(360deg);
+}
