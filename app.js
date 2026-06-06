@@ -6,6 +6,11 @@ const screen = document.querySelector(".screen");
 
 let input = "";
 
+let x = 5;
+let y = 6;
+
+
+
 const buttonArray = [
   "7",
   "8",
@@ -43,6 +48,11 @@ calculatorContainer.addEventListener("mousedown", (event) => {
     console.log("CLEAR");
     screen.innerText = "0";
     input = "";
+  } else if (target.matches(".btn.delete-btn")) {
+    console.log(input);
+    if(input === "") return;
+    input = input.slice(0,-1);
+    screen.innerText = input;
   } else {
     input += event.target.innerText;
     screen.innerText = input;

@@ -35,6 +35,7 @@ body {
   border: 2px solid #333;
   background-color: #33658a;
   border-radius: 10px;
+  width: 400px;
 }
 
 .screen {
@@ -43,7 +44,9 @@ body {
   background-color: white;
   border-radius: 4px;
   padding: 1.5rem;
-  font-size: 20px;
+  font-size: 28px;
+  word-break: break-all;
+  min-height: 80px;
 }
 
 .clear-delete {
@@ -61,10 +64,10 @@ body {
   font-size: 20px;
   border-radius: 5px;
   cursor: pointer;
-  user-select: none;  
+  user-select: none;
 }
-.btn:hover{
-  background-color: #00B295;
+.btn:hover {
+  background-color: #00b295;
   transition-duration: 0.2s;
   color: white;
 }
@@ -76,7 +79,7 @@ body {
   gap: 5px;
 }
 
-.btn:active{
+.btn:active {
   transform: translateY(1px);
 }
 
