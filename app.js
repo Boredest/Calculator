@@ -4,12 +4,11 @@ const buttonsContainer = document.querySelector(".buttons-container");
 
 const screen = document.querySelector(".screen");
 
-let input = "";
+let firstOperand = "";
+let secondOperand = "";
+let currentOperation = "";
 
-let x = 5;
-let y = 6;
-
-
+const operators = ["+", "-", "*", "/"];
 
 const buttonArray = [
   "7",
@@ -43,27 +42,51 @@ calculatorContainer.addEventListener("mousedown", (event) => {
   let target = event.target;
 
   if (!target.matches(".btn")) return;
-  console.log(event.target);
+
   if (target.matches(".btn.clear-btn")) {
-    console.log("CLEAR");
+    firstOperand = "";
+    secondOperand = "";
+    currentOperation = "";
     screen.innerText = "0";
-    input = "";
   } else if (target.matches(".btn.delete-btn")) {
-    console.log(input);
-    if(input === "") return;
-    input = input.slice(0,-1);
-    screen.innerText = input;
+    if (currentOperation === "") {
+      firstOperand = firstOperand.slice(0, -1);
+      screen.innerText = firstOperand || "0";
+    } else {
+      secondOperand = secondOperand.slice(0, -1);
+      screen.innerText = secondOperand || "0";
+    }
+  }
+
+  else if(target.innerText === "=") {
+     if(firstOperand !== "" && secondOperand !== ""){
+      operate(currentOperation, firstOperand, secondOperand);
+     }else{
+      return;
+     }
+   
+  }
+
+  //check operator
+  else if (operators.includes(target.innerText)) {
+    currentOperation = target.innerText;
   } else {
-    input += event.target.innerText;
-    screen.innerText = input;
+    if (currentOperation === "") {
+      firstOperand += target.innerText;
+      screen.innerText = firstOperand;
+      console.log(firstOperand);
+    } else {
+      secondOperand += target.innerText;
+      screen.innerText = secondOperand;
+      
+    }
   }
 });
 
 generateCalculatorGrid();
 
 function add(x, y) {
-  console.log(x + y);
-  return x + y;
+  console.log(x+y);
 }
 
 function subtract() {}
@@ -72,7 +95,9 @@ function multiply() {}
 
 function divide() {}
 
-function operate(operator, x, y) {}
+function operate(operator, x, y) {
+  add(x,y);
+}
 
 function updateDisplay(result) {
   screen.innerText = result;
