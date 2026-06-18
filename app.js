@@ -8,7 +8,47 @@ let firstOperand = "";
 let secondOperand = "";
 let currentOperation = "";
 
+let equalsPressed = false;
+
 const operators = ["+", "-", "*", "/"];
+
+const actions = {
+  clear,
+  removeLastDigit,
+  evaluate,
+  operator,
+  number,
+};
+
+function clear() {
+  console.log("Clear");
+  firstOperand = "";
+  secondOperand = "";
+  currentOperation = "";
+  screen.innerText = "0";
+}
+
+function removeLastDigit() {
+  if (currentOperation === "") {
+    firstOperand = firstOperand.slice(0, -1);
+    screen.innerText = firstOperand || "0";
+  } else {
+    secondOperand = secondOperand.slice(0, -1);
+    screen.innerText = secondOperand || "0";
+  }
+}
+
+function evaluate() {
+  console.log("equal");
+
+  if (firstOperand !== "" && secondOperand !== "") {
+    operate(currentOperation, firstOperand, secondOperand);
+  }
+}
+
+function operator() {}
+
+function number() {}
 
 const buttonArray = [
   "7",
@@ -43,50 +83,48 @@ calculatorContainer.addEventListener("mousedown", (event) => {
 
   if (!target.matches(".btn")) return;
 
+  const value = target.innerText;
+
   if (target.matches(".btn.clear-btn")) {
-    firstOperand = "";
-    secondOperand = "";
-    currentOperation = "";
-    screen.innerText = "0";
-  } else if (target.matches(".btn.delete-btn")) {
-    if (currentOperation === "") {
-      firstOperand = firstOperand.slice(0, -1);
-      screen.innerText = firstOperand || "0";
-    } else {
-      secondOperand = secondOperand.slice(0, -1);
-      screen.innerText = secondOperand || "0";
-    }
+    actions.clear();
+    return;
   }
 
-  else if(target.innerText === "=") {
-     if(firstOperand !== "" && secondOperand !== ""){
-      operate(currentOperation, firstOperand, secondOperand);
-     }else{
-      return;
-     }
-   
+  if (target.matches(".btn.delete-btn")) {
+    console.log("DEL");
+    actions.removeLastDigit();
+    return;
   }
 
-  //check operator
-  else if (operators.includes(target.innerText)) {
-    currentOperation = target.innerText;
+  if (value === "=") {
+    actions.evaluate();
+    return;
+  }
+
+  if (operators.includes(value)) {
+    currentOperation = value;
+    return;
+  }
+
+  if (currentOperation === "") {
+    firstOperand += value;
+    screen.innerText = firstOperand;
   } else {
-    if (currentOperation === "") {
-      firstOperand += target.innerText;
-      screen.innerText = firstOperand;
-      console.log(firstOperand);
-    } else {
-      secondOperand += target.innerText;
-      screen.innerText = secondOperand;
-      
-    }
+    secondOperand += value;
+    screen.innerText = secondOperand;
   }
 });
 
 generateCalculatorGrid();
 
 function add(x, y) {
-  console.log(x+y);
+  equalsPressed = true;
+  x = Number(x);
+  y = Number(y);
+
+  const result = x + y;
+  firstOperand = result.toString();
+  updateDisplay(result);
 }
 
 function subtract() {}
@@ -96,7 +134,9 @@ function multiply() {}
 function divide() {}
 
 function operate(operator, x, y) {
-  add(x,y);
+  if (operator === "+") {
+    add(x, y);
+  }
 }
 
 function updateDisplay(result) {
