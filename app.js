@@ -25,16 +25,17 @@ function clear() {
   firstOperand = "";
   secondOperand = "";
   currentOperation = "";
-  screen.innerText = "0";
+  updateDisplay("0");
 }
 
 function removeLastDigit() {
   if (currentOperation === "") {
     firstOperand = firstOperand.slice(0, -1);
-    screen.innerText = firstOperand || "0";
+    updateDisplay(firstOperand || "0");
+    
   } else {
     secondOperand = secondOperand.slice(0, -1);
-    screen.innerText = secondOperand || "0";
+    updateDisplay(secondOperand || "0");
   }
 }
 
@@ -108,10 +109,10 @@ calculatorContainer.addEventListener("mousedown", (event) => {
 
   if (currentOperation === "") {
     firstOperand += value;
-    screen.innerText = firstOperand;
+    updateDisplay(firstOperand);
   } else {
     secondOperand += value;
-    screen.innerText = secondOperand;
+    updateDisplay(secondOperand);
   }
 });
 
