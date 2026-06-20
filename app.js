@@ -17,7 +17,6 @@ const actions = {
   removeLastDigit,
   evaluate,
   operator,
-  number,
 };
 
 function clear() {
@@ -32,24 +31,13 @@ function removeLastDigit() {
   if (currentOperation === "") {
     firstOperand = firstOperand.slice(0, -1);
     updateDisplay(firstOperand || "0");
-    
   } else {
     secondOperand = secondOperand.slice(0, -1);
     updateDisplay(secondOperand || "0");
   }
 }
 
-function evaluate() {
-  console.log("equal");
-
-  if (firstOperand !== "" && secondOperand !== "") {
-    operate(currentOperation, firstOperand, secondOperand);
-  }
-}
-
 function operator() {}
-
-function number() {}
 
 const buttonArray = [
   "7",
@@ -118,25 +106,49 @@ calculatorContainer.addEventListener("mousedown", (event) => {
 
 generateCalculatorGrid();
 
-function add(x, y) {
-  equalsPressed = true;
-  x = Number(x);
-  y = Number(y);
+function evaluate() {
+  console.log("equal");
 
-  const result = x + y;
-  firstOperand = result.toString();
-  updateDisplay(result);
+  if (firstOperand !== "" && secondOperand !== "") {
+    const result = operate(currentOperation, firstOperand, secondOperand);
+    firstOperand = result.toString();
+    secondOperand = "";
+    updateDisplay(result);
+  }
 }
 
-function subtract() {}
+function add(x, y) {
+  return x + y;
+}
 
-function multiply() {}
+function subtract(x, y) {
+  return x - y;
+}
 
-function divide() {}
+function multiply(x, y) {
+  return x * y;
+}
+
+function divide(x, y) {
+  return x / y;
+}
 
 function operate(operator, x, y) {
+  x = Number(x);
+  y = Number(y);
   if (operator === "+") {
-    add(x, y);
+    return add(x, y);
+  }
+  if (operator === "-") {
+    return subtract(x, y);
+  }
+
+  if (operator === "*") {
+    return multiply(x, y);
+  }
+
+  if (operator === "/") {
+    return divide(x, y);
   }
 }
 
