@@ -94,6 +94,9 @@ calculatorContainer.addEventListener("mousedown", (event) => {
     currentOperation = value;
     return;
   }
+  if(currentOperation !== ""){
+    actions.evaluate();
+  }
 
   if (currentOperation === "") {
     firstOperand += value;
@@ -111,6 +114,11 @@ function evaluate() {
 
   if (firstOperand !== "" && secondOperand !== "") {
     const result = operate(currentOperation, firstOperand, secondOperand);
+    if(!Number.isFinite(result)){
+      updateDisplay("NaN");
+      secondOperand = "";
+      return "NaN";
+    }
     firstOperand = result.toString();
     secondOperand = "";
     updateDisplay(result);
