@@ -90,10 +90,25 @@ calculatorContainer.addEventListener("mousedown", (event) => {
     return;
   }
 
-  if (operators.includes(value)) {
-    if(currentOperation !== "" && secondOperand != ""){
-      actions.evaluate();
+  if (value === ".") {
+    if (firstOperand === "") {
+      return;
+    }
 
+    if (currentOperation === "") {
+      if (firstOperand.includes(".")) {
+        return;
+      }
+    } else {
+      if (secondOperand.includes(".")) {
+        return;
+      }
+    }
+  }
+
+  if (operators.includes(value)) {
+    if (currentOperation !== "" && secondOperand != "") {
+      actions.evaluate();
     }
     currentOperation = value;
     return;
@@ -117,7 +132,9 @@ function evaluate() {
     const result = operate(currentOperation, firstOperand, secondOperand);
     if (!Number.isFinite(result)) {
       updateDisplay("NaN");
+      firstOperand = "";
       secondOperand = "";
+      currentOperation = "";
       return "NaN";
     }
     firstOperand = result.toString();
