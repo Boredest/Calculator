@@ -8,7 +8,7 @@ let firstOperand = "";
 let secondOperand = "";
 let currentOperation = "";
 
-let equalsPressed = false;
+let clearOnNextNumber = false;
 
 const operators = ["+", "-", "*", "/"];
 
@@ -20,7 +20,6 @@ const actions = {
 };
 
 function clear() {
-  console.log("Clear");
   firstOperand = "";
   secondOperand = "";
   currentOperation = "";
@@ -37,7 +36,13 @@ function removeLastDigit() {
   }
 }
 
-function operator() {}
+function operator(value) {
+
+   if (currentOperation !== "" && secondOperand != "") {
+      actions.evaluate();
+    }
+    currentOperation = value;
+}
 
 const buttonArray = [
   "7",
@@ -80,7 +85,6 @@ calculatorContainer.addEventListener("mousedown", (event) => {
   }
 
   if (target.matches(".btn.delete-btn")) {
-    console.log("DEL");
     actions.removeLastDigit();
     return;
   }
@@ -91,32 +95,32 @@ calculatorContainer.addEventListener("mousedown", (event) => {
   }
 
   if (value === ".") {
-    if (firstOperand === "") {
-      return;
-    }
+    if (firstOperand === "") return;
 
-    if (currentOperation === "") {
-      if (firstOperand.includes(".")) {
-        return;
-      }
-    } else {
-      if (secondOperand.includes(".")) {
-        return;
-      }
+    if (
+      (currentOperation === "" && firstOperand.includes(".")) ||
+      (currentOperation !== "" && secondOperand.includes("."))
+    ) {
+      return;
     }
   }
 
   if (operators.includes(value)) {
-    if (currentOperation !== "" && secondOperand != "") {
-      actions.evaluate();
-    }
-    currentOperation = value;
+
+    actions.operator(value);
+   
     return;
   }
 
   if (currentOperation === "") {
-    firstOperand += value;
-    updateDisplay(firstOperand);
+    if (clearOnNextNumber) {
+      firstOperand = value;
+      clearOnNextNumber = false;
+    } else {
+      firstOperand += value;
+    }
+     updateDisplay(firstOperand);
+
   } else {
     secondOperand += value;
     updateDisplay(secondOperand);
@@ -139,6 +143,8 @@ function evaluate() {
     }
     firstOperand = result.toString();
     secondOperand = "";
+    currentOperation = "";
+    clearOnNextNumber = true;
     updateDisplay(result);
   }
 }
