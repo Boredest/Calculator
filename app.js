@@ -4,6 +4,8 @@ const buttonsContainer = document.querySelector(".buttons-container");
 
 const screen = document.querySelector(".screen");
 
+let defaultValue = "0";
+
 let firstOperand = "";
 let secondOperand = "";
 let currentOperation = "";
@@ -18,6 +20,12 @@ const actions = {
   evaluate,
   operator,
 };
+
+function init() {
+  screen.innerText = defaultValue;
+}
+
+init();
 
 function clear() {
   firstOperand = "";
@@ -37,11 +45,10 @@ function removeLastDigit() {
 }
 
 function operator(value) {
-
-   if (currentOperation !== "" && secondOperand != "") {
-      actions.evaluate();
-    }
-    currentOperation = value;
+  if (currentOperation !== "" && secondOperand !== "") {
+    actions.evaluate();
+  }
+  currentOperation = value;
 }
 
 const buttonArray = [
@@ -95,32 +102,29 @@ calculatorContainer.addEventListener("mousedown", (event) => {
   }
 
   if (value === ".") {
-    if (firstOperand === "") return;
-
-    if (
-      (currentOperation === "" && firstOperand.includes(".")) ||
-      (currentOperation !== "" && secondOperand.includes("."))
-    ) {
-      return;
+    if (firstOperand === "") {
+      firstOperand = "0";
     }
+
+    if (firstOperand.includes(".") || secondOperand.includes(".")) return;
   }
 
   if (operators.includes(value)) {
-
     actions.operator(value);
-   
+
     return;
   }
 
   if (currentOperation === "") {
     if (clearOnNextNumber) {
-      firstOperand = value;
+      firstOperand = value === "." ? "0." : value;
       clearOnNextNumber = false;
+    } else if (firstOperand === "0" && value !== ".") {
+      firstOperand = value;
     } else {
       firstOperand += value;
     }
-     updateDisplay(firstOperand);
-
+    updateDisplay(firstOperand);
   } else {
     secondOperand += value;
     updateDisplay(secondOperand);
@@ -130,8 +134,6 @@ calculatorContainer.addEventListener("mousedown", (event) => {
 generateCalculatorGrid();
 
 function evaluate() {
-  console.log("equal");
-
   if (firstOperand !== "" && secondOperand !== "") {
     const result = operate(currentOperation, firstOperand, secondOperand);
     if (!Number.isFinite(result)) {
