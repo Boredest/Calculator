@@ -14,13 +14,6 @@ let clearOnNextNumber = false;
 
 const operators = ["+", "-", "*", "/"];
 
-const actions = {
-  clear,
-  removeLastDigit,
-  evaluate,
-  operator,
-};
-
 function init() {
   screen.innerText = defaultValue;
 }
@@ -44,10 +37,11 @@ function removeLastDigit() {
   }
 }
 
-function operator(value) {
+function handleOperator(value) {
   if (currentOperation !== "" && secondOperand !== "") {
-    actions.evaluate();
+    evaluate();
   }
+
   currentOperation = value;
 }
 
@@ -87,30 +81,39 @@ calculatorContainer.addEventListener("mousedown", (event) => {
   const value = target.innerText;
 
   if (target.matches(".btn.clear-btn")) {
-    actions.clear();
+    clear();
     return;
   }
 
   if (target.matches(".btn.delete-btn")) {
-    actions.removeLastDigit();
+    removeLastDigit();
     return;
   }
 
   if (value === "=") {
-    actions.evaluate();
+    evaluate();
     return;
   }
 
   if (value === ".") {
-    if (firstOperand === "") {
-      firstOperand = "0";
+    if (currentOperation === "") {
+      if (firstOperand.includes(".")) return;
+      if (firstOperand === "") {
+        firstOperand = "0";
+      }
+    } else {
+      if (secondOperand.includes(".")) return;
+      if (secondOperand === "") {
+        secondOperand = "0";
+      }
     }
-
-    if (firstOperand.includes(".") || secondOperand.includes(".")) return;
   }
 
   if (operators.includes(value)) {
-    actions.operator(value);
+    if (firstOperand === "") {
+      firstOperand = "0";
+    }
+    handleOperator(value);
 
     return;
   }
@@ -136,18 +139,26 @@ generateCalculatorGrid();
 function evaluate() {
   if (firstOperand !== "" && secondOperand !== "") {
     const result = operate(currentOperation, firstOperand, secondOperand);
-    if (!Number.isFinite(result)) {
-      updateDisplay("NaN");
-      firstOperand = "";
-      secondOperand = "";
-      currentOperation = "";
-      return "NaN";
-    }
+    if (handleInvalidNumber(result) === "NaN") return;
     firstOperand = result.toString();
     secondOperand = "";
     currentOperation = "";
     clearOnNextNumber = true;
-    updateDisplay(result);
+    if (Number.isInteger(result)) {
+      updateDisplay(result.toString());
+    } else {
+      updateDisplay(result.toFixed(1));
+    }
+  }
+}
+
+function handleInvalidNumber(num) {
+  if (!Number.isFinite(num)) {
+    updateDisplay("NaN");
+    firstOperand = "";
+    secondOperand = "";
+    currentOperation = "";
+    return "NaN";
   }
 }
 
